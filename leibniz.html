@@ -1,0 +1,67 @@
+
+<head>
+ <title>
+  Pi Calculator
+ </title>
+ <script language="JavaScript">
+  function calcpi(digitsn) {
+   p = 1;
+   s = 0;
+   for (c = 3; c < digitsn; c += 2) {
+    if (s == 0) {
+     p -= 1/c;
+     s = 1;
+    } else {
+     p += 1/c;
+     s = 0;
+    }
+   }
+   p *= 4;
+   return p;
+  }
+
+  function hid(input) { //Highlight Incorrect Digits
+   pi = "3.14159265358979323846".split('');
+   piout = "";
+   input = input.toString().split('');
+   result = "<u>";
+   correct = 0;
+   ccont = 0;
+   tc = 0;
+
+   for (c = 0; c < input.length; c++) {
+    if (input[c] != pi[c]) {
+     result += "<span style='background-color:red'>" + input[c] + "</span>";
+     piout += "<span style='background-color:#ffff00'>" + pi[c] + "</span>";
+     tc = 1;
+    } else {
+     result += input[c];
+     piout += input[c];
+     correct++;
+     if (pi[c] != '.' && tc == 0) ccont++;
+    }
+   }
+
+   return "<b>Correct Digits</b><br/>Overall: " + correct.toString() + "<br/>Contiguous: " + ccont + "<br/><br/><b>Comparison:</b><br/>" + result + "<br/>" + piout;
+  }
+ </script>
+</head>
+<body>
+ Repeat algorithm x many times:<br/>
+ <input type="text" value="10000" id="digitsx"/><br/>
+ <input type="button" onClick="document.getElementById('answer').value=calcpi(parseInt(document.getElementById('digitsx').value)).toString()" value="Calculate"/><br/>
+ Result:<br/>
+ <input type="text" readonly id="answer"/><br/>
+ Correct value:<br/>
+ <input type="text" readonly value="3.14159265358979323846"/><br/>
+ <input type="button" value="Compare" onClick="document.getElementById('comparison').innerHTML = hid(getElementById('answer').value)"/>
+ <div id="comparison"></div>
+ <br/><br/>
+ <big><b>About This Formula</b></big><br/>
+ This calculator uses the Maclaurin series for arctangent(1) to
+calculate &pi;/4. This is widely known as the Lebniz formula for
+&pi;.<br/>
+
+ <big>1/1 - 1/3 + 1/5 - 1/7 + 1/9 - ... = &pi;/4</big><br/<br/>
+</body>
+
